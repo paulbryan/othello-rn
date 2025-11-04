@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Othello Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Othello</h1>
+            <div class="controls">
+                <button id="themeToggle" class="btn">🌓 Toggle Theme</button>
+                <button id="colorSettings" class="btn">🎨 Colors</button>
+                <button id="leaderboardBtn" class="btn">🏆 Leaderboard</button>
+            </div>
+        </header>
+
+        <div class="game-info">
+            <div class="score-section">
+                <div class="player-score">
+                    <div class="score-label">
+                        <span class="piece black-piece"></span>
+                        <span>Black</span>
+                    </div>
+                    <div id="blackScore" class="score">2</div>
+                </div>
+                <div class="player-score">
+                    <div class="score-label">
+                        <span class="piece white-piece"></span>
+                        <span>White</span>
+                    </div>
+                    <div id="whiteScore" class="score">2</div>
+                </div>
+            </div>
+            <div id="currentPlayer" class="current-player">Black's Turn</div>
+        </div>
+
+        <div id="board" class="board"></div>
+
+        <div class="game-controls">
+            <button id="newGame" class="btn btn-primary">New Game</button>
+            <div class="mode-selection">
+                <label>
+                    <input type="radio" name="gameMode" value="pvp">
+                    Player vs Player
+                </label>
+                <label>
+                    <input type="radio" name="gameMode" value="pvc" checked>
+                    Player vs Computer
+                </label>
+            </div>
+            <div id="colorSelection" class="color-selection">
+                <label>Play as:</label>
+                <label>
+                    <input type="radio" name="playerColor" value="black" checked>
+                    Black
+                </label>
+                <label>
+                    <input type="radio" name="playerColor" value="white">
+                    White
+                </label>
+            </div>
+            <div id="playerNames" class="player-names hidden">
+                <div class="name-input-group">
+                    <label for="blackPlayerName">Black Player:</label>
+                    <input type="text" id="blackPlayerName" placeholder="Black" maxlength="20">
+                </div>
+                <div class="name-input-group">
+                    <label for="whitePlayerName">White Player:</label>
+                    <input type="text" id="whitePlayerName" placeholder="White" maxlength="20">
+                </div>
+            </div>
+        </div>
+
+        <div id="gameOver" class="game-over hidden">
+            <div class="game-over-content">
+                <h2 id="gameOverTitle">Game Over</h2>
+                <p id="gameOverMessage"></p>
+                <button id="playAgain" class="btn btn-primary">Play Again</button>
+            </div>
+        </div>
+
+        <div id="colorModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Customize Colors</h2>
+                <div class="color-picker-group">
+                    <label for="boardColor">Board Color:</label>
+                    <input type="color" id="boardColor" value="#2d8659">
+                </div>
+                <div class="color-picker-group">
+                    <label for="blackPieceColor">Black Pieces:</label>
+                    <input type="color" id="blackPieceColor" value="#000000">
+                </div>
+                <div class="color-picker-group">
+                    <label for="whitePieceColor">White Pieces:</label>
+                    <input type="color" id="whitePieceColor" value="#ffffff">
+                </div>
+                <div class="modal-actions">
+                    <button id="applyColors" class="btn btn-primary">Apply</button>
+                    <button id="closeModal" class="btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="leaderboardModal" class="modal hidden">
+            <div class="modal-content leaderboard-content">
+                <h2>🏆 Leaderboard</h2>
+                <div id="leaderboardList" class="leaderboard-list"></div>
+                <div class="modal-actions">
+                    <button id="clearHistory" class="btn btn-danger">Clear History</button>
+                    <button id="closeLeaderboard" class="btn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2000; display: none;"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>
