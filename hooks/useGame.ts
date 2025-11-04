@@ -136,18 +136,36 @@ export function useGame() {
 
   // Handle computer move scheduling
   useEffect(() => {
+    console.log('🎮 Computer effect triggered:', {
+      gameActive: state.gameActive,
+      gameMode: state.gameMode,
+      currentPlayer: state.currentPlayer,
+      computerColor: state.computerColor,
+      isThinking: isComputerThinkingRef.current,
+      shouldMove:
+        state.gameActive &&
+        state.gameMode === 'pvc' &&
+        state.currentPlayer === state.computerColor &&
+        !isComputerThinkingRef.current,
+    })
+
     if (
       state.gameActive &&
       state.gameMode === 'pvc' &&
       state.currentPlayer === state.computerColor &&
       !isComputerThinkingRef.current
     ) {
+      console.log('💭 Computer is thinking...')
       // Mark that computer is thinking to prevent duplicate moves
       isComputerThinkingRef.current = true
 
       // Schedule computer move
       computerMoveTimeoutRef.current = setTimeout(() => {
+        console.log('🤖 Computer calculating move...')
         const move = calculateComputerMove(state.board, state.computerColor)
+
+        console.log('🎯 Computer move calculated:', move)
+
         if (move) {
           // Simulate the move to check the resulting board
           const newBoard = makeMove(
@@ -162,22 +180,23 @@ export function useGame() {
 
             // Check game over after computer move with the NEW board
             setTimeout(() => {
-              isComputerThinkingRef.current = false
               if (isGameOver(newBoard)) {
                 dispatch({ type: 'END_GAME' })
               } else {
                 dispatch({ type: 'SWITCH_PLAYER' })
               }
+              // Reset the flag AFTER all dispatches are done
+              isComputerThinkingRef.current = false
             }, 100)
           } else {
             // Move failed somehow, switch anyway
-            isComputerThinkingRef.current = false
             dispatch({ type: 'SWITCH_PLAYER' })
+            isComputerThinkingRef.current = false
           }
         } else {
           // Computer has no valid moves
-          isComputerThinkingRef.current = false
           dispatch({ type: 'SWITCH_PLAYER' })
+          isComputerThinkingRef.current = false
         }
       }, COMPUTER_TURN_DELAY)
     }
