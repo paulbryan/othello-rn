@@ -59,14 +59,71 @@ This will open the Expo Developer Tools in your browser. From here, you can:
 
 ```
 othello-rn/
-├── app/               # Main application code
+├── components/       # Reusable React components
+├── hooks/            # Custom React hooks
+├── utils/            # Utility functions and game logic
+├── types/            # TypeScript type definitions
+├── constants/        # App constants (colors, game settings)
 ├── assets/           # Images, fonts, and other static assets
-├── node_modules/     # Dependencies
 ├── .github/          # GitHub configuration
 ├── app.json          # Expo configuration
+├── eas.json          # EAS Build configuration
 ├── package.json      # Dependencies and scripts
 ├── tsconfig.json     # TypeScript configuration
 └── README.md         # This file
+```
+
+## 🚀 Building & Deployment
+
+### Development Build
+
+Create a development build for testing:
+
+```bash
+# Install EAS CLI globally (first time only)
+npm install -g eas-cli
+
+# Login to Expo account
+eas login
+
+# Build for Android (APK for testing)
+eas build --platform android --profile preview
+
+# Build for iOS (requires Apple Developer account)
+eas build --platform ios --profile preview
+```
+
+### Production Build
+
+Build for app store submission:
+
+```bash
+# Build for Google Play Store
+eas build --platform android --profile production
+
+# Build for Apple App Store
+eas build --platform ios --profile production
+
+# Build for both platforms
+eas build --platform all --profile production
+```
+
+### Submitting to App Stores
+
+```bash
+# Submit to Google Play Store
+eas submit --platform android
+
+# Submit to Apple App Store
+eas submit --platform ios
+```
+
+### Over-the-Air (OTA) Updates
+
+Push JS-only updates without rebuilding:
+
+```bash
+eas update --branch production --message "Your update message"
 ```
 
 ## 🤝 Contributing
