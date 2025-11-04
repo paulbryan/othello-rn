@@ -30,7 +30,8 @@
         "backgroundColor": "#2d8659"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.fghdev.othello"
     },
     "web": {
       "favicon": "./assets/favicon.png"
