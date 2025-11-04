@@ -2,7 +2,7 @@
  * Othello Game - Main App
  */
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
   StyleSheet,
   View,
@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaView } from 'react-native'
+import * as SplashScreen from 'expo-splash-screen'
 
 import { useGame } from '@/hooks/useGame'
 import { GameBoard } from '@/components/GameBoard'
@@ -21,6 +22,15 @@ import { NewGameModal } from '@/components/NewGameModal'
 import { GameOverModal } from '@/components/GameOverModal'
 import { Colors, DefaultColors } from '@/constants/Colors'
 import { GameMode, PlayerColor } from '@/types/game'
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync()
+
+// Set the animation options
+SplashScreen.setOptions({
+  duration: 1000,
+  fade: true,
+})
 
 export default function App() {
   const systemColorScheme = useColorScheme()
@@ -31,6 +41,7 @@ export default function App() {
 
   const { state, handleCellPress, startNewGame } = useGame()
   const [showNewGameModal, setShowNewGameModal] = useState(false)
+  const [appIsReady, setAppIsReady] = useState(false)
 
   // Custom colors (could be persisted with AsyncStorage later)
   const [customColors, setCustomColors] = useState({
@@ -38,6 +49,33 @@ export default function App() {
     black: DefaultColors.blackPiece,
     white: DefaultColors.whitePiece,
   })
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Preload any resources here (fonts, images, etc.)
+        // Simulate loading time
+        await new Promise((resolve) => setTimeout(resolve, 1500))
+      } catch (e) {
+        console.warn(e)
+      } finally {
+        setAppIsReady(true)
+      }
+    }
+
+    prepare()
+  }, [])
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // Hide the splash screen with fade animation
+      await SplashScreen.hideAsync()
+    }
+  }, [appIsReady])
+
+  if (!appIsReady) {
+    return null
+  }
 
   // Determine current player name for display
   const getCurrentPlayerName = () => {
@@ -74,6 +112,7 @@ export default function App() {
   return (
     <SafeAreaView
       style={[styles.safeArea, { backgroundColor: colors.background }]}
+      onLayout={onLayoutRootView}
     >
       <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
       <ScrollView
