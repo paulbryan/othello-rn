@@ -37,6 +37,11 @@ export function isValidMove(
   col: number,
   player: PlayerColor
 ): boolean {
+  // Check bounds first
+  if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
+    return false
+  }
+
   if (board[row][col] !== null) return false
 
   const opponent: PlayerColor = player === 'black' ? 'white' : 'black'
