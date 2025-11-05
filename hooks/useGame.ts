@@ -23,6 +23,8 @@ const initialState: GameState = {
   computerColor: 'white',
   gameActive: true,
   lastComputerMove: null,
+  turnNumber: 0,
+  skippedPlayer: null,
   blackPlayerName: 'Black',
   whitePlayerName: 'White',
   score: { black: 2, white: 2 },
@@ -43,6 +45,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         computerColor,
         gameActive: true,
         lastComputerMove: null,
+        turnNumber: 0,
+        skippedPlayer: null,
         blackPlayerName: action.blackName || state.blackPlayerName,
         whitePlayerName: action.whiteName || state.whitePlayerName,
         score: { black: 2, white: 2 },
@@ -95,11 +99,18 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         return {
           ...state,
           currentPlayer: opponent,
+          turnNumber: state.turnNumber + 1,
+          skippedPlayer: null, // Clear any previous skip
         }
       }
       // If opponent has no moves but current player does, current player goes again
       else if (getValidMoves(state.board, state.currentPlayer).length > 0) {
-        return state // Same player continues
+        // Increment turnNumber to force re-render and trigger computer move
+        return {
+          ...state,
+          turnNumber: state.turnNumber + 1,
+          skippedPlayer: opponent, // Mark opponent as skipped
+        }
       }
       // No valid moves for either player - game over
       else {
@@ -212,6 +223,7 @@ export function useGame() {
     state.currentPlayer,
     state.computerColor,
     state.board,
+    state.turnNumber, // Include turnNumber to trigger on same-player-continues scenario
     // NOTE: We use isComputerThinkingRef to prevent duplicate moves
     // when the board changes during computer's turn
   ])

@@ -28,6 +28,8 @@ export interface GameState {
   computerColor: PlayerColor // Computer's color in PvC mode
   gameActive: boolean
   lastComputerMove: Position | null
+  turnNumber: number // Increments each turn to trigger re-renders
+  skippedPlayer: PlayerColor | null // Track which player had no moves (for notification)
   blackPlayerName: string
   whitePlayerName: string
   score: GameScore

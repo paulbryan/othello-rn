@@ -20,6 +20,7 @@ import { GameBoard } from '@/components/GameBoard'
 import { ScoreBoard } from '@/components/ScoreBoard'
 import { NewGameModal } from '@/components/NewGameModal'
 import { GameOverModal } from '@/components/GameOverModal'
+import { SkipNotification } from '@/components/SkipNotification'
 import { Colors, DefaultColors } from '@/constants/Colors'
 import { GameMode, PlayerColor } from '@/types/game'
 
@@ -185,6 +186,20 @@ export default function App() {
         cardBackground={colors.cardBackground}
         primaryColor={colors.primary}
       />
+
+      {/* Skip Turn Notification */}
+      {state.skippedPlayer && (
+        <SkipNotification
+          visible={true}
+          skippedPlayerName={
+            state.skippedPlayer === 'black'
+              ? state.blackPlayerName
+              : state.whitePlayerName
+          }
+          skippedColor={state.skippedPlayer}
+          textColor='#fff'
+        />
+      )}
     </SafeAreaView>
   )
 }
