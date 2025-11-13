@@ -2,6 +2,18 @@
 
 A React Native mobile application built with Expo and TypeScript.
 
+## 📸 Screenshots
+
+<div align="center">
+
+### Game Interface
+![Game Interface](screenshots/game-interface.png)
+
+### New Game Modal
+![New Game Modal](screenshots/new-game-modal.png)
+
+</div>
+
 ## 📋 Prerequisites
 
 Before you begin, ensure you have the following installed:
